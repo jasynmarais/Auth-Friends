@@ -1,24 +1,24 @@
 import React from 'react';
-import logo from './logo.svg';
+import { Route } from 'react-router-dom';
 import './App.css';
+
+const LoginForm = () => {
+  return (
+    <div>
+      <form>
+        <input type='text' placeholder='Username' name='username' />
+        <input type='password' placeholder='Password' name='password' />
+        <button>Login</button>
+      </form>
+    </div>
+  );
+};
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Hello World!</h1>
+      <Route exact path='/' component={LoginForm} />
     </div>
   );
 }
