@@ -1,12 +1,63 @@
-import React, { useState } from 'react';
-import { Route } from 'react-router-dom';
+import React, { useState, useEffect, Component } from 'react';
+import { Route, Redirect } from 'react-router-dom';
 import axios from 'axios';
 import './App.css';
 
-const FriendsList = () => {
+const withAuth = () => {
+  const token = localStorage.getItem('token');
+
+  return axios.create({
+    baseURL: 'http://localhost:5000/api',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: token
+    }
+  });
+};
+
+const PrivateRoute = ({ component: Component, ...rest }) => (
+  <Route
+    {...rest}
+    render={props => 
+    localStorage.getItem('token') ? (
+      <Component {...props} />
+    ) : (
+      <Redirect to='/' />
+    )
+  }
+/>
+);
+
+const Friend = ({ friend }) => {
   return (
     <div>
-      <h1>Friends List</h1>
+      <ul>
+        <li>{friend.name}</li>
+        <li>{friend.age}</li>
+        <li>{friend.email}</li>
+      </ul>
+    </div>
+  );
+};
+
+const FriendsList = () => {
+
+const [friends, setFriends] = useState([]);
+
+useEffect(() => {
+  withAuth()
+  .get('/friends')
+  .then(res => {
+    setFriends(res.data);
+  })
+  .catch(err => console.log(err));
+}, []);
+
+  return (
+    <div>
+      {friends.map(friend => (
+        <Friend key={friend.id} friend={friend} />
+      ))}
     </div>
   );
 };
@@ -63,7 +114,7 @@ function App() {
     <div className="App">
       <h1>Hello World!</h1>
       <Route exact path='/' component={LoginForm} />
-      <Route path='/friends' component={FriendsList} />
+      <PrivateRoute path='/friends' component={FriendsList} />
     </div>
   );
 }
