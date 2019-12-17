@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-export const LoginForm = props => {
-  // const [isLoading, setIsLoading] = useState(false);
+
+const LoginForm = props => {
   const [formValues, setFormValues] = useState({ username: '', password: '' });
   const handleInputChange = e => {
     setFormValues({
@@ -44,3 +44,5 @@ export const LoginForm = props => {
     </div>
   );
 };
+
+export default LoginForm;

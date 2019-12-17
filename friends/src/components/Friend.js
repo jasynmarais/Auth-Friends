@@ -1,12 +1,15 @@
 import React from 'react';
-export const Friend = ({ friend }) => {
+
+const Friend = ({ friend }) => {
   return (
     <div>
       <ul>
-        <li>{friend.name}</li>
+        <li><b>{friend.name}</b></li>
         <li>{friend.age}</li>
         <li>{friend.email}</li>
       </ul>
     </div>
   );
 };
+
+export default Friend;
